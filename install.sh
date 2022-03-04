@@ -12,6 +12,8 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
+APT_FLAGS="-o DPkg::Lock::Timeout=-1 -y"
+
 if [ "$EUID" -ne 0 ]
   then echo -e "${RED}Please run as root${NC}"
   exit
@@ -35,25 +37,13 @@ else
 fi
 
 
-# Stop unattended upgrades to prevent apt install from failing
-systemctl stop unattended-upgrades.service
-
-
-# Wait for Ubuntu to finish unattended upgrades
-while [[ $(lsof -w /var/lib/dpkg/lock-frontend) ]] || [[ $(lsof -w /var/lib/apt/lists/lock) ]]
-do
-  echo -e "${YELLOW}Waiting for Ubuntu unattended upgrades to finish ${NC}"
-  sleep 20s
-done
-
 # Install Required Debian Packages
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 \
 	        --verbose 803DDF595EA7B6644F9B96B752150A179A9E84C9
 echo "deb http://ppa.launchpad.net/ubuntu-xilinx/updates/ubuntu focal main" > /etc/apt/sources.list.d/xilinx-gstreamer.list
-apt update 
+apt-get update $APT_FLAGS
 
-apt-get -o DPkg::Lock::Timeout=10 update && \
-apt-get install -y python3.8-venv python3-cffi libssl-dev libcurl4-openssl-dev \
+apt-get install $APT_FLAGS python3.8-venv python3-cffi libssl-dev libcurl4-openssl-dev \
   portaudio19-dev libcairo2-dev libdrm-xlnx-dev libopencv-dev python3-opencv graphviz i2c-tools \
   fswebcam
 
@@ -189,8 +179,8 @@ systemctl start jupyter.service
 systemctl start pl_server.service
 
 # Purge libdrm-xlnx-dev to allow `apt upgrade`
-apt-get purge -y libdrm-xlnx-dev
-apt-get purge -y libdrm-xlnx-amdgpu1
+apt-get purge $APT_FLAGS libdrm-xlnx-dev
+apt-get purge $APT_FLAGS libdrm-xlnx-amdgpu1
 
 # Ask to connect to Jupyter
 ip_addr=$(ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
