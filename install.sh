@@ -38,7 +38,7 @@ fi
 
 
 # Install Required Debian Packages
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 \
+apt-key $APT_FLAGS adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 \
 	        --verbose 803DDF595EA7B6644F9B96B752150A179A9E84C9
 echo "deb http://ppa.launchpad.net/ubuntu-xilinx/updates/ubuntu focal main" > /etc/apt/sources.list.d/xilinx-gstreamer.list
 apt-get update $APT_FLAGS
