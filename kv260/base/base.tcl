@@ -34,7 +34,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2020.2
+set scripts_vivado_version 2022.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -56,14 +56,15 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 # <./base/base.xpr> in the current working folder.
 
 # Add user local board path and check if the board file exists
-set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx_board_store]]
+#set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx_board_store]]
+set_param board.repoPaths ./XilinxBoardStore
 
-set board [get_board_parts "*:kv260:*" -latest_file_version]
-if { ${board} eq "" } {
-   puts ""
-   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "${board} board file is not found. Please install the board file either manually or using the Xilinx Board Store"}
-   return 1
-}
+#set board [get_board_parts "*:kv260:*" -latest_file_version]
+#if { ${board} eq "" } {
+#   puts ""
+#   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "${board} board file is not found. Please install the board file either manually or using the Xilinx Board Store"}
+#   return 1
+#}
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
@@ -73,7 +74,7 @@ set overlay_name "base"
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
    create_project ${overlay_name} ${overlay_name} -part xck26-sfvc784-2LV-c
-   set_property BOARD_PART ${board} [current_project]
+   #set_property BOARD_PART ${board} [current_project]
 }
 
 # Set IP repo
@@ -157,7 +158,7 @@ set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
 user.org:user:address_remap:1.0\
-xilinx.com:ip:axi_iic:2.0\
+xilinx.com:ip:axi_iic:2.1\
 xilinx.com:ip:axi_intc:4.1\
 xilinx.com:ip:axi_register_slice:2.1\
 xilinx.com:ip:xlslice:1.0\
@@ -590,7 +591,7 @@ proc create_hier_cell_iop_pmod0 { parentCell nameHier } {
  ] $gpio
 
   # Create instance: iic, and set properties
-  set iic [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.0 iic ]
+  set iic [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.1 iic ]
 
   # Create instance: intc, and set properties
   set intc [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_intc:4.1 intc ]
@@ -767,7 +768,7 @@ proc create_root_design { parentCell } {
  ] $address_remap_0
 
   # Create instance: axi_iic, and set properties
-  set axi_iic [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.0 axi_iic ]
+  set axi_iic [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_iic:2.1 axi_iic ]
 
   # Create instance: axi_intc, and set properties
   set axi_intc [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_intc:4.1 axi_intc ]
