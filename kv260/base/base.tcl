@@ -1294,10 +1294,10 @@ Port;FD4A0000;FD4AFFFF;0|FPD;DPDMA;FD4C0000;FD4CFFFF;0|FPD;DDR_XMPU5_CFG;FD05000
   assign_bd_address -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Instruction] [get_bd_addr_segs iop_pmod0/microblaze_0_local_memory/lmb_bram_if_cntlr/SLMB/Mem] -force
 
   # Exclude Address Segments
-  #exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP3/HP1_DDR_HIGH]
-  #exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP3/HP1_LPS_OCM]
-  #exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP3/HP1_QSPI]
-  #exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP6/LPD_DDR_HIGH]
+  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP3/HP1_DDR_HIGH]
+  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP3/HP1_LPS_OCM]
+  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP3/HP1_QSPI]
+  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces iop_pmod0/microblaze_0/Data] [get_bd_addr_segs zynq_ultra_ps_e_0/SAXIGP6/LPD_DDR_HIGH]
 
 
   # Restore current instance
