@@ -261,6 +261,13 @@ sed -i 's/Raspberry Pi kits is connected into the board.//g' $PYNQ_JUPYTER_NOTEB
 # Patch microblaze to use virtualenv libraries
 sed -i "s/opt\/microblaze/usr\/local\/share\/pynq-venv\/bin/g" /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq/lib/pynqmicroblaze/rpc.py
 
+# Patch embedded_device -- fixes IOP+DPU issue
+sed -i "258,259c\            xclbin_data = _create_xclbin(parser.mem_dict)" /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq/pl_server/embedded_device.py
+
+# Patch DPU-PYNQ with new platform
+unzip for_bootcamp/kv260_bootcamp_overlay.zip -d /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq_dpu/
+cp for_bootcamp/yolo_webcam_pmod_oled.ipynb /home/root/jupyter_notebooks/pynq-dpu/
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Remove unnecessary notebooks
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

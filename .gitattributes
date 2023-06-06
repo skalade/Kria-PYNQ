@@ -25,3 +25,4 @@
 *.bit binary -crlf
 *.a binary -crlf
 *.bsp binary
+*.zip binary
