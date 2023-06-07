@@ -265,8 +265,13 @@ sed -i "s/opt\/microblaze/usr\/local\/share\/pynq-venv\/bin/g" /usr/local/share/
 sed -i "258,259c\            xclbin_data = _create_xclbin(parser.mem_dict)" /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq/pl_server/embedded_device.py
 
 # Patch DPU-PYNQ with new platform
-unzip for_bootcamp/kv260_bootcamp_overlay.zip -d /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq_dpu/
+yes | unzip for_bootcamp/kv260_bootcamp_overlay.zip -d /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq_dpu/
 cp for_bootcamp/yolo_webcam_pmod_oled.ipynb /home/root/jupyter_notebooks/pynq-dpu/
+
+# Patch dpuoverlay
+sed -i '107c\        self.iop_pmod0.mbtype = "Pmod"\n' /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq_dpu/dpu.py
+sed -i '108c\        self.PMOD0 = self.iop_pmod0.mb_info\n' /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq_dpu/dpu.py
+sed -i '109c\        self.PMODA = self.PMOD0' /usr/local/share/pynq-venv/lib/python3.10/site-packages/pynq_dpu/dpu.py
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Remove unnecessary notebooks
