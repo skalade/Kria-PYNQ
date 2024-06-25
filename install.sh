@@ -143,6 +143,9 @@ then
         exit 1
 fi
 
+# Temp fix: install numpy<2.0 first to avoid new numpy 2.0 issues
+python3 -m pip install numpy==1.26.4
+
 # Installing PYNQ-Metadata
 python3 -m pip install pynqmetadata==0.1.2 
 
